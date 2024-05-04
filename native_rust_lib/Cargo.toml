@@ -7,6 +7,16 @@ edition = "2021"
 
 [dependencies]
 jni = "0.21.1"
+rqrr = "0.7.1"
+image = "0.25.1"
+
 
 [lib]
-crate-type = ["staticlib", "cdylib"]
+crate-type = ["staticlib", "cdylib", "lib"]
+name = "native_rust_lib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "test_app"
+path = "src/main.rs"
+
