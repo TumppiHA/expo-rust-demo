@@ -55,13 +55,10 @@ pub extern "C" fn qr_get_content(ptr: *const QR) -> *const c_char {
 }
 
 #[no_mangle]
-pub extern "C" fn qr_get_bounds(ptr: *const QR, out_bounds: *mut i32, max_len: usize) -> usize {
+pub unsafe extern "C" fn qr_get_bounds(ptr: *const QR) -> *const i32 {
     unsafe {
-        let bounds = &(*ptr).bounds;
-        let len = bounds.len();
-        let to_copy = std::cmp::min(len, max_len);
-        std::ptr::copy_nonoverlapping(bounds.as_ptr(), out_bounds, to_copy);
-        to_copy
+        let qr = &*ptr;  // Safely dereference the pointer within an unsafe block
+        return qr.bounds.as_ptr(); // Return a pointer to the data in the vector
     }
 }
 
@@ -73,7 +70,7 @@ pub mod android {
     use super::*;
     use jni::JNIEnv;
     use jni::objects::{JClass, JString};
-    use jni::sys::{jstring, jlong};
+    use jni::sys::{jstring, jlong, jintArray};
 
     #[no_mangle]
     pub unsafe extern "C" fn Java_com_example_project_MyRustModule_readQr(
@@ -115,17 +112,26 @@ pub mod android {
         **(env.new_string(CStr::from_ptr(content).to_str().unwrap()).unwrap())
     }
 
-    /// JNI function to get QR bounds
     #[no_mangle]
     pub unsafe extern "C" fn Java_com_example_project_MyRustModule_getQrBounds(
         env: JNIEnv,
         _class: JClass,
         qr_ptr: jlong,
-        out_bounds: *mut i32,
-        max_len: usize,
-    ) -> usize {
+    ) -> jintArray {
+        // Direct cast from jlong to *const QR
         let qr = qr_ptr as *const QR;
-        let bounds_len = crate::qr_get_bounds(qr, out_bounds, max_len);
-        bounds_len
+
+        // Directly access the bounds vector from the QR struct
+        let bounds = &(*qr).bounds;
+
+        // Create a new jintArray of the correct size
+        let bounds_array = env.new_int_array(bounds.len() as i32).unwrap();
+        let b = **bounds_array;
+
+        // Set the jintArray elements to the values from the bounds vector
+        env.set_int_array_region(bounds_array, 0, bounds).unwrap();
+
+        // Return the jintArray
+        b
     }
 }
