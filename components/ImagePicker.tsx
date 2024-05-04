@@ -13,6 +13,7 @@ type ImageType = {
 export default function ImagePickerExample() {
     const [image, setImage] = useState<ImageType | null>(null);
     const [rectangles, setRectangles] = useState<Rectangle[] | undefined>(undefined)
+    const [qrData, setQrData] = useState<string | null>(null)
     const aspectRatio = (image?.height ?? 100) / (image?.width ?? 100)
 
     const [value, setValue] = useState<null | number>(null);
@@ -28,7 +29,8 @@ export default function ImagePickerExample() {
         if (!result.canceled) {
             setImage({ uri: result.assets[0].uri, height: result.assets[0].height, width: result.assets[0].width });
             const qrData = await readQR(result.assets[0].uri);
-            console.log("moi" + qrData.get("content"));
+            setQrData(qrData)
+            console.log("moi" + qrData);
             setRectangles(coordinateHandler([100, 100, 200, 200, 100, 200, 200, 100, 500, 400, 700, 300, 600, 800, 200, 400]))
         }
     };
@@ -37,7 +39,7 @@ export default function ImagePickerExample() {
         <View style={styles.container}>
             <Text style={styles.titleText} >QR-scanner</Text>
 
-            {value && <Text>{value.toString()}</Text>}
+            {qrData && <Text>{qrData}</Text>}
             {image && <View style={styles.imageContainer}>
                 <QrImage uri={image.uri} aspectRatio={aspectRatio} width={Dimensions.get('window').width - 30} originalWidth={image.width} coordinates={rectangles} />
             </View>
