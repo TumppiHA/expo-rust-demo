@@ -73,19 +73,18 @@ export default function ImagePickerExample() {
 
             {image && (
                 <View style={styles.imageContainer}>
-                    {qrCodes.map((qrCode, index) => (
-                        <QrImage
-                            uri={image.uri}
-                            width={Dimensions.get('window').width - 30}
-                            aspectRatio={image.height / image.width}
-                            originalWidth={image.width}
-                            coordinates={rectangles}
-                            onPress={(index) => {
-                                console.log('Rectangle pressed:', index);
-                                // Additional logic based on index, such as opening a modal with specific QR code details
-                            }}
-                        />
-                    ))}
+                    <QrImage
+                        uri={image.uri}
+                        width={Dimensions.get('window').width - 30}
+                        aspectRatio={image.height / image.width}
+                        originalWidth={image.width}
+                        coordinates={rectangles}
+                        onPress={(index) => {
+                            setSelectedQrCode(qrCodes[index]);
+                            setShowModal(true);
+                        }}
+                    />
+
                 </View>
             )}
 
