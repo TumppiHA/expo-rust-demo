@@ -20,8 +20,9 @@ export function hello(): string {
   return MyRustModule.hello();
 }
 
-export async function rustAdd(a: number, b: number): Promise<number> {
-  return await MyRustModule.rustAdd(a, b);
+
+export async function readQR(uri: string): Promise<Map<string, any>> {
+  return await MyRustModule.readQR(uri);
 }
 
 export async function setValueAsync(value: string) {
