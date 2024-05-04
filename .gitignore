@@ -40,3 +40,7 @@ native_rust_lib/**/*.h
 modules/**/*.h
 modules/**/*.a
 modules/**/*.so
+
+modules/my-rust-module/android/build/*
+ios/exporustdemo.xcworkspace/xcshareddata/
+ios/Podfile.lock
