@@ -8,35 +8,36 @@ export type Rectangle = {
     width: number,
 }
 
-export const QrImage = (args: { uri: string, width: number, aspectRatio: number, originalWidth: number, coordinates?: Rectangle[], onPress: () => void }) => {
-    const { uri, width, aspectRatio, originalWidth, coordinates, onPress } = args
-    console.log(originalWidth, width, aspectRatio)
-    const scale = width / originalWidth
-    console.log({ scale })
+export const QrImage = (args: {
+    uri: string,
+    width: number,
+    aspectRatio: number,
+    originalWidth: number,
+    coordinates?: Rectangle[],
+    onPress: (index: number) => void // Updated to accept an index
+}) => {
+    const { uri, width, aspectRatio, originalWidth, coordinates, onPress } = args;
+    const scale = width / originalWidth;
 
     return (
         <View style={{ height: aspectRatio * width, width, backgroundColor: "white" }}>
             <Image source={{ uri }} style={{ height: "100%", width: "100%" }} />
-
-            {coordinates?.map((rectangle, index) => {
-                return <View key={index} style={[styles.rectangle, {
+            {coordinates?.map((rectangle, index) => (
+                <View key={index} style={[styles.rectangle, {
                     top: rectangle.top * scale,
                     height: rectangle.height * scale,
                     left: rectangle.left * scale,
                     width: rectangle.width * scale
                 }]}>
-                    <TouchableOpacity onPress={onPress} >
+                    <TouchableOpacity onPress={() => onPress(index)}>
                         <View style={styles.filler}></View>
-
                     </TouchableOpacity>
                 </View>
-
-            }
-            )}
-
+            ))}
         </View>
-    )
-}
+    );
+};
+
 
 const styles = StyleSheet.create({
     container: {
