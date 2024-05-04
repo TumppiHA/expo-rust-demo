@@ -23,14 +23,10 @@ public class MyRustModule: Module {
       return "Hello world! 👋"
     }
 
-    AsyncFunction("rustAdd") { (a: Int32, b: Int32) -> Int32 in
-      return rust_add(a, b)
-    }
-
     AsyncFunction("readQr") { (path: String) -> String in
       let cPath = path.cString(using: .utf8)!
-      let qrCode = read_qr_code(cPath)
-      return qrCode
+      let qrCode = read_qr(cPath)
+      return String(cString: qrCode!)
     }
 
     // Defines a JavaScript function that always returns a Promise and whose native code
