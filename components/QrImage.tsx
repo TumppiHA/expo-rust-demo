@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { Button, Image, View, StyleSheet, Text } from 'react-native';
+import { Button, Image, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 export type Rectangle = {
     top: number,
     left: number,
     height: number,
-    width: number
+    width: number,
 }
 
-export const QrImage = (args: { uri: string, width: number, aspectRatio: number, originalWidth: number, coordinates?: Rectangle[] }) => {
-    const { uri, width, aspectRatio, originalWidth, coordinates } = args
+export const QrImage = (args: { uri: string, width: number, aspectRatio: number, originalWidth: number, coordinates?: Rectangle[], onPress: () => void }) => {
+    const { uri, width, aspectRatio, originalWidth, coordinates, onPress } = args
     console.log(originalWidth, width, aspectRatio)
     const scale = width / originalWidth
     console.log({ scale })
@@ -24,7 +24,12 @@ export const QrImage = (args: { uri: string, width: number, aspectRatio: number,
                     height: rectangle.height * scale,
                     left: rectangle.left * scale,
                     width: rectangle.width * scale
-                }]}></View>
+                }]}>
+                    <TouchableOpacity onPress={onPress} >
+                        <View style={styles.filler}></View>
+
+                    </TouchableOpacity>
+                </View>
 
             }
             )}
@@ -40,10 +45,14 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     rectangle: {
-
-        borderColor: 'red',
-        borderWidth: 2,
         position: 'absolute',
-
     },
+    filler: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderColor: 'red',
+        borderWidth: 3,
+        borderRadius: 20,
+    }
 });
