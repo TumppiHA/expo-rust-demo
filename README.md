@@ -1,12 +1,30 @@
 # expo-rust-demo
 
-This is a demo of how to use Rust code in a React Native app using Expo Modules
+This is a QR code reading project made for Boosts Digital Sustainability Hackathon.
 
-Check out the acommpanying [video tutorial 🎥](https://youtu.be/mErOZcKqR0c?si=BnGympilYsju7QcN)
-
-Questions or feedback? Reach out to me on Farcaster at [@typeof.eth](https://warpcast.com/typeof.eth)
+The app can open images from the callery and read QR-codes from them.
 
 ## Setup
+
+- install dependencies
+	- `npm i`
+
+## iOS
+
+- build rust library
+	- `npm run cargo-ios`
+- open an emulator or connect a device
+- build and run app
+	- `npm run ios`
+
+## Android
+
+- build rust library
+	- `npm run cargo-android`
+- open an emulator or connect a device
+- build and run app
+	- `npm run android`
+
 
 - Create expo project
 	- `npx create-expo-app -t expo-template-blank-typescript expo-rust-demo`
