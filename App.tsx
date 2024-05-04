@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { hello, rustAdd } from "./modules/my-rust-module";
 import { useEffect, useState } from "react";
+import ImagePickerExample from "./components/ImagePicker";
 
 export default function App() {
   const [value, setValue] = useState<null | number>(null);
@@ -13,13 +14,7 @@ export default function App() {
     doFetch();
   }, []);
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{hello()}</Text>
-      <Text style={styles.text}>
-        {value === null ? "Loading..." : `The value is: ${value}`}
-      </Text>
-      <StatusBar style="auto" />
-    </View>
+    <ImagePickerExample />
   );
 }
 
