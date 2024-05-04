@@ -1,55 +1,51 @@
+import ExpoModulesCore
+
 public class MyRustModule: Module {
+  // Each module class must implement the definition function. The definition consists of components
+  // that describes the module's functionality and behavior.
+  // See https://docs.expo.dev/modules/module-api for more details about available components.
   public func definition() -> ModuleDefinition {
+    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
+    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
+    // The module will be accessible from `requireNativeModule('MyRustModule')` in JavaScript.
     Name("MyRustModule")
 
+    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
     Constants([
       "PI": Double.pi
     ])
 
+    // Defines event names that the module can send to JavaScript.
     Events("onChange")
 
+    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
       return "Hello world! 👋"
     }
 
+    AsyncFunction("rustAdd") { (a: Int32, b: Int32) -> Int32 in
+      return rust_add(a, b)
+    }
+
+    AsyncFunction("readQr") { (path: String) -> String in
+      let cPath = path.cString(using: .utf8)!
+      let qrCode = read_qr_code(cPath)
+      return qrCode
+    }
+
+    // Defines a JavaScript function that always returns a Promise and whose native code
+    // is by default dispatched on the different thread than the JavaScript runtime runs on.
     AsyncFunction("setValueAsync") { (value: String) in
+      // Send an event to JavaScript.
       self.sendEvent("onChange", [
         "value": value
       ])
     }
 
-    // Adding the readQr function
-        AsyncFunction("readQr") { (path: String) async -> [String: Any] in
-            // Convert the string to a format suitable for Rust function calling
-            let cPath = path.cString(using: .utf8)!
-            
-            // Assuming the following functions are available and properly bridged:
-            // - readQr(_:): Reads the QR and returns a pointer to a QR structure
-            // - getQrContent(_:): Returns the content from the QR structure
-            // - getQrBounds(_:): Returns the bounds from the QR structure
-            // - freeQr(_:): Frees the allocated QR structure
-            let qrPtr = readQr(cPath)  // Call Rust function to read QR
-            
-            // Extract content and bounds
-            guard let content = getQrContent(qrPtr), let bounds = getQrBounds(qrPtr) else {
-                // Handle potential null values or errors appropriately
-                freeQr(qrPtr)
-                return ["error": "Failed to decode QR code"]
-            }
-            
-            // Convert the bounds to a more Swift-friendly format, e.g., an array of Int
-            let boundsArray = Array(UnsafeBufferPointer(start: bounds, count: 8))
-            
-            // Cleanup: free the QR structure after extracting data
-            freeQr(qrPtr)
-            
-            // Return the results as a dictionary
-            return [
-                "content": String(cString: content),
-                "bounds": boundsArray
-            ]
-
+    // Enables the module to be used as a native view. Definition components that are accepted as part of the
+    // view definition: Prop, Events.
     View(MyRustModuleView.self) {
+      // Defines a setter for the `name` prop.
       Prop("name") { (view: MyRustModuleView, prop: String) in
         print(prop)
       }

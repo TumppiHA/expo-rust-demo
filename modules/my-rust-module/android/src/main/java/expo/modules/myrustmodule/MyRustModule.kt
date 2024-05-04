@@ -12,10 +12,7 @@ class MyRustModule : Module() {
   }
 
   // Declare external functions matching the Rust implementations
-  external fun readQr(path: String): Long
-  external fun freeQr(qrPtr: Long)
-  external fun getQrContent(qrPtr: Long): String
-  external fun getQrBounds(qrPtr: Long): IntArray
+  external fun readQr(path: String): String
 
   override fun definition() = ModuleDefinition {
     Name("MyRustModule")
@@ -29,11 +26,7 @@ class MyRustModule : Module() {
     }
 
     AsyncFunction("readQr") { path: String ->
-      val qrPtr = readQr(path)
-      val content = getQrContent(qrPtr)
-      val bounds = getQrBounds(qrPtr)
-      freeQr(qrPtr)
-      mapOf("content" to content, "bounds" to bounds)
+      readQr(path)
     }
 
     AsyncFunction("setValueAsync") { value: String ->

@@ -21,8 +21,8 @@ export function hello(): string {
 }
 
 
-export async function readQR(uri: string): Promise<Map<string, any>> {
-  return await MyRustModule.readQR(uri);
+export async function readQR(uri: string): Promise<string> {
+  return await MyRustModule.readQr(uri);
 }
 
 export async function setValueAsync(value: string) {
