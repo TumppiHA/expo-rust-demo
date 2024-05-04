@@ -32,5 +32,5 @@ The app shows the locations of the QR-codes and by tapping them, you can see the
 - build and run app
 	- `npm run android`
 
- - ![image](https://github.com/TumppiHA/expo-rust-demo/assets/98409793/7aea6d16-bb46-4ef2-8564-6cef6f5bc085)
+
 
