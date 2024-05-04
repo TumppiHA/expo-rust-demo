@@ -29,7 +29,7 @@ pub mod android {
     use jni::sys::jstring;
 
     #[no_mangle]
-    pub extern "C" fn Java_com_example_project_MyRustModule_readQr(
+    pub extern "C" fn Java_expo_modules_myrustmodule_MyRustModule_readQr(
         mut env: JNIEnv,
         class: JClass,
         j_path: JString,
