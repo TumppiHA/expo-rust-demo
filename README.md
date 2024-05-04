@@ -8,6 +8,7 @@ The app can open images from the callery and read QR-codes from them.
 - install tools for expo
 	- https://docs.expo.dev/get-started/installation/#requirements
 - install rust
+	- https://www.rust-lang.org/tools/install
 - install dependencies
 	- `npm i`
 
