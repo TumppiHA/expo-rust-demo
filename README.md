@@ -1,13 +1,9 @@
 # expo-rust-demo
 
 This is a QR code reading app made for Boosts Digital Sustainability Hackathon.
-
 The app can open images from the callery and read QR-codes from them.
-
 Image is processed in expo native module that uses Rust for processing.
-
 The module returns the data from the QR-code and it's coordinates.
-
 The app shows the locations of the QR-codes and by tapping them, you can see the data.
 
 ## Setup
@@ -33,4 +29,6 @@ The app shows the locations of the QR-codes and by tapping them, you can see the
 	- `npm run android`
 
 
-
+## Examples
+![Android](img/android1.png)
+![iPhone](img/ios2.png)
