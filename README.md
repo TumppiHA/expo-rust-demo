@@ -30,5 +30,7 @@ The app shows the locations of the QR-codes and by tapping them, you can see the
 
 
 ## Examples
-![Android](img/android1.png)
-![iPhone](img/ios2.png)
+<img src="img/android1.png" alt="drawing" width="200"/>
+<img src="img/android2.png" alt="drawing" width="200"/>
+<img src="img/ios2.png" alt="drawing" width="200"/>
+
